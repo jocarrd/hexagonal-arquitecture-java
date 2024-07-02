@@ -1,4 +1,4 @@
-package com.example.application.rest;
+package com.example.infraestructure.rest;
 import com.example.domain.model.Order; import com.example.domain.model.OrderItem; import com.example.domain.service.OrderService;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
