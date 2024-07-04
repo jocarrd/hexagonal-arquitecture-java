@@ -2,9 +2,15 @@ package com.example.application.port;
 
 
 import com.example.domain.model.Order;
-import io.quarkus.hibernate.orm.panache. PanacheRepository;
-import jakarta.enterprise.context.ApplicationScoped;
 
-@ApplicationScoped
-public class OrderRepository implements PanacheRepository<Order> {
+import java.util.List;
+import java.util.Optional;
+
+
+public interface OrderRepository {
+
+    Order save(Order order);
+    Optional<Order> findById(Long id);
+    List<Order> findAll();
+    void deleteById(Long id);
 }

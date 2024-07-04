@@ -1,47 +1,36 @@
 package com.example.application.service;
-import com.example.domain.model.Order;
-import com.example.domain.model.OrderItem;
 import com.example.application.port.OrderRepository;
+import com.example.domain.model.Order;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.transaction.Transactional;
-
 
 import java.util.List;
+import java.util.Optional;
+
+
 @ApplicationScoped
 public class OrderService {
+
     @Inject
     OrderRepository orderRepository;
 
-    @Transactional
+    public OrderService(OrderRepository orderRepository) {
+        this.orderRepository = orderRepository;
+    }
+
     public Order createOrder(Order order) {
-        orderRepository.persist(order);
-        return order;
+        return orderRepository.save(order);
     }
 
-    @Transactional
-    public void addItemToOrder(Long orderId, OrderItem item) {
-        Order order = orderRepository.findById(orderId);
-        if (order != null) {
-            order.addItem(item);
-            orderRepository.persist(order);
-        }
-    }
-
-    @Transactional
-    public void updateOrderStatus(Long orderId, String status) {
-        Order order = orderRepository.findById(orderId);
-        if (order != null) {
-            order.updateStatus(status);
-            orderRepository.persist(order);
-        }
+    public Optional<Order> getOrder(Long id) {
+        return orderRepository.findById(id);
     }
 
     public List<Order> getAllOrders() {
-        return orderRepository.listAll();
+        return orderRepository.findAll();
     }
 
-    public Order findOrderById(Long id) {
-        return orderRepository.findById(id);
+    public void deleteOrder(Long id) {
+        orderRepository.deleteById(id);
     }
 }
