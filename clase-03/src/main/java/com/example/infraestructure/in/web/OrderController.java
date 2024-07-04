@@ -1,43 +1,46 @@
 package com.example.infraestructure.in.web;
-import com.example.domain.model.Order; import com.example.domain.model.OrderItem; 
 import com.example.application.service.OrderService;
+import com.example.domain.model.Order;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-
 import java.util.List;
+import java.util.Optional;
+
 @Path("/orders")
 @Produces(MediaType.APPLICATION_JSON)
-@Consumes(MediaType.APPLICATION_JSON) public class OrderController {
+@Consumes(MediaType.APPLICATION_JSON)
+public class OrderController {
+
     @Inject
     OrderService orderService;
+
     @POST
-    public Response createOrder (Order order) {
-        orderService.createOrder(order);
-        return Response.status(Response.Status.CREATED).entity(order).build();
+    public Response createOrder(Order order) {
+        Order createdOrder = orderService.createOrder(order);
+        return Response.status(Response.Status.CREATED).entity(createdOrder).build();
     }
-    @POST
-    @Path("/{orderId}/items")
-    public Response addItemToOrder(@PathParam("orderId") Long orderId, OrderItem item){
-        orderService.addItemToOrder(orderId, item);
-        return Response.ok().build();
-    }
-    @PUT
-    @Path("/{orderId}/status")
-    public Response updateOrderStatus(@PathParam("orderId") Long orderId, String
-            status) {
-        orderService.updateOrderStatus(orderId, status);
-        return Response.ok().build();
-    }
+
     @GET
-    public List<Order> getAllOrders() {
-        return orderService.getAllOrders();
+    @Path("/{id}")
+    public Response getOrder(@PathParam("id") Long id) {
+        Optional<Order> order = orderService.getOrder(id);
+        return order.map(value -> Response.ok(value).build())
+                .orElse(Response.status(Response.Status.NOT_FOUND).build());
     }
+
     @GET
-    @Path("/{orderId}")
-    public Order getOrderById(@PathParam("orderId") Long orderId) {
-        return orderService.findOrderById(orderId);
+    public Response getAllOrders() {
+        List<Order> orders = orderService.getAllOrders();
+        return Response.ok(orders).build();
+    }
+
+    @DELETE
+    @Path("/{id}")
+    public Response deleteOrder(@PathParam("id") Long id) {
+        orderService.deleteOrder(id);
+        return Response.noContent().build();
     }
 }
