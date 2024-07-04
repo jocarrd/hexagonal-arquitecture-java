@@ -3,9 +3,10 @@ import com.example.domain.model.Order;
 import com.example.domain.model.OrderItem;
 import com.example.application.port.OrderRepository;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 
-import javax.inject.Inject;
+
 import java.util.List;
 @ApplicationScoped
 public class OrderService {

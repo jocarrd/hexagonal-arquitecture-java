@@ -1,10 +1,12 @@
 package com.example.infraestructure.in.web;
-import com.example.domain.model.Order; import com.example.domain.model.OrderItem; import com.example.application.service.OrderService;
+import com.example.domain.model.Order; import com.example.domain.model.OrderItem; 
+import com.example.application.service.OrderService;
+import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-import javax.inject.Inject;
+
 import java.util.List;
 @Path("/orders")
 @Produces(MediaType.APPLICATION_JSON)
